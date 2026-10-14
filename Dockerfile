@@ -1,8 +1,9 @@
-# 1. Build Stage
-FROM eclipse-temurin:17-jdk AS build
+# 1. Build Stage (Official Maven + Java 17)
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY . .
-RUN chmod +x mvnw && ./mvnw clean package -DskipTests
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
 # 2. Run Stage
 FROM eclipse-temurin:17-jre
